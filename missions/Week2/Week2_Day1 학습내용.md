@@ -2,13 +2,23 @@
 title: 250714 2주차 월요일 수업
 
 ---
+
+# 250714 2주차 월요일 수업 
+
 ## 1. String
 ### char와 String의 메모리 사용 차이
 - String Constant Pool에서 String을 어떻게 찾아서 참조하는가?
-    → 해시기반으로 관리한다
+    → 해시기반으로 관리한다 
+> 해시기반으로 관리한다 는 말...해시 기반...? 이게 무슨 소리일까요? 해시 테이블 구조이다..?  
+> 갑자기 들이닥치는 JVM 구조ㅋㅋㅋㅋㅋㅋ 수업 
 - char[] ch = {'a', 'b', 'c'};
 String str = "abc"; 
 두 경우, 각각 사용하는 메모리의 크기는 어떻게 되나요?
+> char[] 배열의 메모리 사용량 = char 객체(헤더 + 배열 길이 + char 데이터 + 패딩 ) 
+> String 객체의 메모리 사용량 = String 객체(헤더 + hash필드 / value) +  char[] 배열
+> 오 메모리 사용량에서 char[] 이 유리하네? 
+> 앞으로 char[] 만 쓰시면 됩니다. 
+> 
 
 
 ### String 객체가 immutable인 이유와 장단점
@@ -23,6 +33,10 @@ String str = "abc";
     - 1. String a = "abc" ← GC에 의해 정리되지 않음
     - 2.  String b = new String("abc") ← GC에 의해 정리 됨 (SCP에 등록되지 않기 때문)
     +) b.intern() 메서드를 사용하면 SCP에 등록이 됨
+    
+    > 이게 왜 이런 답변이 달렸을까 생각해보니 JAVA 8 이전 이야기인 것 같습니다. (그게 아니라면 그냥 잘못 알고 계신 것. Java 8은 2014년 3월 18일에 최초로 출시되었다고 하네요ㅋㅋㅋ)
+    > 그 이후로는 JVM에서 heap 에 위치하기 때문에 당연히 GC 가 돕니다..
+    > new String("alice").intern()에 대해서 설명해주실 분 구합니다. 
 
 
 ### String concatenation(문자열 연결)의 다양한 방법들
@@ -65,8 +79,8 @@ String s6 = list.stream().collect(Collectors.joining("-"));
 
 - TreeSet은 순서가 보장 되는가?
     - TreeSet 은 이진검색트리를 기반으로 하기 때문에 데이터 정렬 상태를 유지한다.
-- HashMap은 충돌이 너무 많이 나게 되면 TreeMap으로 변경된다고 합니다..
-  -> 추가적인 설명 해주실 수 있을까요 ?? 
+- HashMap에서 해시 충돌이 발생하는 경우 어떤 방식으로 처리하나요?
+- HashMap은 충돌이 너무 많이 나게 되면 TreeMap으로 변경된다고 합니다.. 
   -> 그 자세하게 찾아보니, 충돌되는 노드의 개수가 임계값을 넘어서면 chaining 되는 구조가 linked-list에서 Red-Balck Tree로 바뀌는 것 같아요. 다음 코드는 HashMap 안에서 구현된 코드입니다. 
 ```java
 /**
@@ -94,7 +108,7 @@ String s6 = list.stream().collect(Collectors.joining("-"));
         }
     }
 ```
-- HashMap에서 해시 충돌이 발생하는 경우 어떤 방식으로 처리하나요?
+
 - HashMap VS HashSet 어떤게 검색 성능이 더 좋을까요?
     - 답변: 두 자료구조가 사용 목적이 다르긴 합니다. <br> HashMap의 경우 key를 기반으로 value를 찾기 위해 사용하고, value를 조회하는 과정에서 linked-list 혹은 tree를 탐색해야 할 수 있습니다. <br> HashSet의 경우, HashMap과 다르게, 값이 존재하는지만 확인하면 됩니다.
 
